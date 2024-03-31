@@ -16,16 +16,16 @@ services:
       - "${DB_PORT}:5432"
   app:
     build: 
-      context: ./backend/
-      dockerfile: Dockerfile.dev
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+      context: ./
+      dockerfile: containers/fastapi/Dockerfile
     image: app
     volumes:
-      - ./backend:/backend
-    environment:
-      RAILS_ENV: development
+      - ./backend:/code
     ports:
-      - "${APP_PORT}:3000"
+    # 右側のポートもAPP_PORTに合わせる必要がある
+      - "${APP_PORT}:3300"
+    #ポート番号をAPP_PORTに合わせる必要がある(docker compose up でポート3000でfastAPIのアプリが立ち上がる)
+    command: poetry run uvicorn main:app --reload --host 0.0.0.0 --port 3300
     depends_on:
       - db
   db-gui:
