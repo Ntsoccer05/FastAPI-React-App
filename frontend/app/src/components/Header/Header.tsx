@@ -6,7 +6,6 @@ import { useAuth } from '../../hooks/useAuth'
 import { Message } from '../Message/Message'
 import { useRecoilState } from "recoil"
 import { showMessage, showMessageContent, showMessageStatus, showMessageTitle } from '../../store/showMessage'
-import { useParams } from 'react-router-dom'
 
 // ログイン時のメニュー
 const loginedNavigation = [
@@ -29,7 +28,7 @@ function classNames(...classes:string[]) {
 
 export const Header = () => {
   // ログインユーザー情報取得
-  const { loginUserdata } = useAuth();
+  const { loginUser, logout } = useAuth();
 
   // URLパスを取得
   const {pathname} = useLocation();
@@ -74,7 +73,7 @@ export const Header = () => {
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                      { loginUserdata ? loginedNavigation.map((item) => (
+                      { loginUser ? loginedNavigation.map((item) => (
                         <Link
                           key={item.name}
                           to={item.href}
@@ -116,7 +115,7 @@ export const Header = () => {
                   </button>
 
                   {/* Profile dropdown */}
-                  {loginUserdata ? <Menu as="div" className="relative ml-3">
+                  {loginUser ? <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
@@ -163,6 +162,7 @@ export const Header = () => {
                             <Link
                               to="#"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              onClick={logout}
                             >
                               ログアウト
                             </Link>
@@ -201,7 +201,7 @@ export const Header = () => {
 
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
-                {loginUserdata ? loginedNavigation.map((item) => (
+                {loginUser ? loginedNavigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
                     as="a"

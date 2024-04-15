@@ -15,7 +15,7 @@ export const PostDetail = () => {
   const { id } = useParams()
 
   // ログインユーザー情報取得
-  const { loginUserdata } = useAuth();
+  const { loginUser } = useAuth();
 
   // 全てのカード情報
   const [ getCardsData, setCardsData ] = useRecoilState(cardsData);
@@ -81,7 +81,7 @@ export const PostDetail = () => {
           </p>
           <hr />
           <div className="text-center">
-            {cardsDataDetail.length > 0 && loginUserdata.id === cardsDataDetail[0].user_id ?
+            {cardsDataDetail.length > 0 && loginUser?.id === cardsDataDetail[0].user_id ?
               <>
                 <button
                   type="button"

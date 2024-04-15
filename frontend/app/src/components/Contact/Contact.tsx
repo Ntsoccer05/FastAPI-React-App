@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 const ContactForm = () => {
  const [isSubmitted, setIsSubmitted] = useState(false);
+ const [clickedSubmit, setClickedSubmit] = useState(false);
  const [lastName, setLastName] = useState('');
  const [firstName, setFirstName] = useState('');
  const [email, setEmail] = useState('');
@@ -25,6 +26,7 @@ const ContactForm = () => {
 
  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
    e.preventDefault();
+   setClickedSubmit(true)
    if (lastName !== '' &&
    firstName !== '' &&
    email !== '' &&
@@ -37,6 +39,7 @@ const ContactForm = () => {
     //    email,
     //    message
     //  }).then(() => {
+          setClickedSubmit(false)
     //    setIsSubmitted(true);
     //    // reset forms
     //    setLastName(' ');
@@ -70,7 +73,7 @@ const ContactForm = () => {
                      value={lastName}
                      onChange={onChangeLastName}
                    />
-                   {lastName === '' && (
+                   {(lastName === '' && clickedSubmit === true ) && (
                      <p className="text-red-500 text-xs italic">
                        苗字を入力してください。
                      </p>
@@ -87,7 +90,7 @@ const ContactForm = () => {
                      value={firstName}
                      onChange={onChangeFirstName}
                    />
-                   {firstName === '' && (
+                   {(firstName === '' && clickedSubmit === true )&& (
                      <p className="text-red-500 text-xs italic">
                        名前を入力してください。
                      </p>
@@ -106,7 +109,7 @@ const ContactForm = () => {
                      value={email}
                      onChange={onChangeEmail}
                    />
-                   {email === '' && (
+                   {(email === '' && clickedSubmit === true ) && (
                      <p className="text-red-500 text-xs italic">
                        メールアドレスを入力してください。
                      </p>
@@ -123,7 +126,7 @@ const ContactForm = () => {
                      onChange={onChangeMessage}
                      className=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-64 resize-none"
                    ></textarea>
-                   {message === '' && (
+                   {(message === '' && clickedSubmit === true ) && (
                      <p className="text-red-500 text-xs italic">
                        お問合せ内容を入力してください。
                      </p>

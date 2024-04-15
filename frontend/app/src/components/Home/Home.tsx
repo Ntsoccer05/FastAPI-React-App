@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { Card } from "./Card"
 import { ErrorBoundary } from "react-error-boundary"
 import { TESelect, TERipple } from "tw-elements-react";
@@ -6,6 +6,7 @@ import { SelectData } from "tw-elements-react/dist/types/forms/Select/types";
 import { fetchPosts } from "../../hooks/usePost";
 import { useQuery } from "@tanstack/react-query";
 import { PostData } from "../../../types/api/PostData";
+import axios from "axios";
 
 export const Home = ()=> {
     // 並び替え内容
@@ -15,6 +16,22 @@ export const Home = ()=> {
         { text: "お気に入り順", value: 3 },
         { text: "閲覧数順", value: 4 },
     ];
+
+    // fastapi get methodでのレスポンスを返す関数
+    // const Domain = "http://localhost:3300";
+    // const getResponse = async () => {
+    //     try {
+    //         const res = await axios.get(Domain);
+    //         // backend/main.pyのreturn値を取得
+    //         console.log(res.data)
+    //         return res.data;
+    //     } catch (e) {
+    //         throw e;
+    //     }
+    // }
+    // useEffect(()=>{
+    //     getResponse()
+    // },[])
 
     // 並び替え内容取得
     const [selectContent, setSelectContent] = useState<string>("");
