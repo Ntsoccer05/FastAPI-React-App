@@ -1,13 +1,13 @@
 // useGetImageUrl.ts
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 type Args = {
   file: File | undefined;
 };
 
 export const useGetImageUrl = ({ file }: Args) => {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     if (!file) {
@@ -16,9 +16,9 @@ export const useGetImageUrl = ({ file }: Args) => {
 
     let reader: FileReader | null = new FileReader();
     reader.onloadend = () => {
-			// base64のimageUrlを生成する。
+      // base64のimageUrlを生成する。
       const base64 = reader && reader.result;
-      if (base64 && typeof base64 === 'string') {
+      if (base64 && typeof base64 === "string") {
         setImageUrl(base64);
       }
     };

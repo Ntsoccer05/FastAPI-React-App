@@ -3,84 +3,83 @@ import { useRecoilState } from "recoil";
 import { showMessage } from "../../store/showMessage";
 import { TEToast } from "tw-elements-react";
 
-
 type Props = {
-    status: string | undefined,
-    title: string
-    duration: number,
-    children: string,
-}
+  status: string | undefined;
+  title: string;
+  duration: number;
+  children: string;
+};
 
 // カスタムトーストメッセージ
 export const Message = (props: Props) => {
-       const { status, title, duration, children} = props;
+  const { status, title, duration, children } = props;
 
-       // グローバルState
-       const [dispMessage, setDispMessage] = useRecoilState(showMessage)
+  // グローバルState
+  const [dispMessage, setDispMessage] = useRecoilState(showMessage);
 
-       const [bgColor, setBgColor] = useState<string>("");
-    //    const [focusOffsetColor, setFocusOffsetColor] = useState<string>("");
-    //    const [focusDarkColor, setFocusDarkColor] = useState<string>("");
-       const [textColor, setTextColor] = useState<string>("");
-       const [borderColor, setBorderColor] = useState<string>("");
+  const [bgColor, setBgColor] = useState<string>("");
+  //    const [focusOffsetColor, setFocusOffsetColor] = useState<string>("");
+  //    const [focusDarkColor, setFocusDarkColor] = useState<string>("");
+  const [textColor, setTextColor] = useState<string>("");
+  const [borderColor, setBorderColor] = useState<string>("");
 
-       // statusによりメッセージの色を変更
-       useEffect(()=>{
-        switch (status) {
-            case "info":
-                // setBgColor("blue-500");
-                // setFocusOffsetColor("blue-800");
-                // setFocusDarkColor("blue-700");
-                setBgColor("bg-blue-100");
-                setTextColor("text-blue-800");
-                setBorderColor("border-blue-200");
-                break;
-            case "warning":
-                // setBgColor("yellow-500");
-                // setFocusOffsetColor("yellow-800");
-                // setFocusDarkColor("yellow-700");
-                setBgColor("bg-yellow-100");
-                setTextColor("text-yellow-800");
-                setBorderColor("border-yellow-200");
-                break;
-            case "success":
-                // setBgColor("green-500");
-                // setFocusOffsetColor("green-800");
-                // setFocusDarkColor("green-700");
-                setBgColor("bg-green-100");
-                setTextColor("text-green-800");
-                setBorderColor("border-green-200");
-                break;
-            case "error":
-                // setBgColor("red-500");
-                // setFocusOffsetColor("red-800");
-                // setFocusDarkColor("red-700");
-                setBgColor("bg-red-100");
-                setTextColor("text-red-800");
-                setBorderColor("border-red-200");
-                break;
-            default:
-                break;
-        }
-       },[status])
+  // statusによりメッセージの色を変更
+  useEffect(() => {
+    switch (status) {
+      case "info":
+        // setBgColor("blue-500");
+        // setFocusOffsetColor("blue-800");
+        // setFocusDarkColor("blue-700");
+        setBgColor("bg-blue-100");
+        setTextColor("text-blue-800");
+        setBorderColor("border-blue-200");
+        break;
+      case "warning":
+        // setBgColor("yellow-500");
+        // setFocusOffsetColor("yellow-800");
+        // setFocusDarkColor("yellow-700");
+        setBgColor("bg-yellow-100");
+        setTextColor("text-yellow-800");
+        setBorderColor("border-yellow-200");
+        break;
+      case "success":
+        // setBgColor("green-500");
+        // setFocusOffsetColor("green-800");
+        // setFocusDarkColor("green-700");
+        setBgColor("bg-green-100");
+        setTextColor("text-green-800");
+        setBorderColor("border-green-200");
+        break;
+      case "error":
+        // setBgColor("red-500");
+        // setFocusOffsetColor("red-800");
+        // setFocusDarkColor("red-700");
+        setBgColor("bg-red-100");
+        setTextColor("text-red-800");
+        setBorderColor("border-red-200");
+        break;
+      default:
+        break;
+    }
+  }, [status]);
 
-       // クリック時にメッセージを閉じる処理
-       const toggleShowMessage = () => {
-            setDispMessage(!dispMessage)
-       }
+  // クリック時にメッセージを閉じる処理
+  const toggleShowMessage = () => {
+    setDispMessage(!dispMessage);
+  };
 
-       useEffect(()=>{
-        // メッセージを一定時間で自動的に閉じる
-        if(dispMessage === true){
-          setTimeout(() => {
-            setDispMessage(!dispMessage)
-          },duration)
-        }
-      },[dispMessage])
+  useEffect(() => {
+    // メッセージを一定時間で自動的に閉じる
+    if (dispMessage === true) {
+      setTimeout(() => {
+        setDispMessage(!dispMessage);
+      }, duration);
+    }
+  }, [dispMessage]);
 
-    return (
-        <>
-            {/* {dispMessage ?
+  return (
+    <>
+      {/* {dispMessage ?
                 <div className={`max-w-xs bg-${bgColor} animate-slideIn text-sm text-white rounded-md shadow-lg  mb-3 mx-auto`} role="alert" onClick={toggleShowMessage}>
                     <div className="flex p-4">
                         {children}
@@ -104,43 +103,53 @@ export const Message = (props: Props) => {
                 </div>
             </div>
         } */}
-            <div className="z-50">
-                <TEToast staticToast open={dispMessage} autohide={true} delay={duration} setOpen={setDispMessage} color={`${bgColor} ${textColor}`} className="h-0 fixed inset-0 text-center z-50">
-                    <div className={`flex items-center justify-between rounded-t-lg border-b-2 border-opacity-100 bg-clip-padding px-4 pb-2 pt-2.5 + ${bgColor} ${borderColor}`}>
-                        <p className="font-bold text-base">
-                            {title}
-                        </p>
-                        <div className="flex items-center">
-                            <button
-                            type="button"
-                            className="ml-2 box-content rounded-none border-none opacity-80 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                            onClick={() => setDispMessage(false)}
-                            aria-label="Close"
-                            >
-                            <span className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
-                                <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="h-6 w-6"
-                                >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                                </svg>
-                            </span>
-                            </button>
-                        </div>
-                    </div>
-                    <div className={`break-words rounded-b-lg px-4 py-4 text-left  + ${bgColor}`}>
-                        {children}
-                    </div>
-                </TEToast>
+      <div className="z-50">
+        <TEToast
+          staticToast
+          open={dispMessage}
+          autohide={true}
+          delay={duration}
+          setOpen={setDispMessage}
+          color={`${bgColor} ${textColor}`}
+          className="h-0 fixed inset-0 text-center z-50"
+        >
+          <div
+            className={`flex items-center justify-between rounded-t-lg border-b-2 border-opacity-100 bg-clip-padding px-4 pb-2 pt-2.5 + ${bgColor} ${borderColor}`}
+          >
+            <p className="font-bold text-base">{title}</p>
+            <div className="flex items-center">
+              <button
+                type="button"
+                className="ml-2 box-content rounded-none border-none opacity-80 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                onClick={() => setDispMessage(false)}
+                aria-label="Close"
+              >
+                <span className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </span>
+              </button>
             </div>
-        </>
-    )
-}
+          </div>
+          <div
+            className={`break-words rounded-b-lg px-4 py-4 text-left  + ${bgColor}`}
+          >
+            {children}
+          </div>
+        </TEToast>
+      </div>
+    </>
+  );
+};

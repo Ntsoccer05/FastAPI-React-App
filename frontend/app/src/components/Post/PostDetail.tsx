@@ -16,6 +16,7 @@ export const PostDetail = () => {
 
   // ログインユーザー情報取得
   const { loginUser } = useAuth();
+  console.log(loginUser)
 
   // 全てのカード情報
   const [ getCardsData, setCardsData ] = useRecoilState(cardsData);
@@ -42,7 +43,6 @@ export const PostDetail = () => {
     }
   },[getCardsData])
   
-
   // お気に入りボタン押下時処理
   const liked = () => {
     haslike(!like);
@@ -62,12 +62,12 @@ export const PostDetail = () => {
           <div className="grid grid-cols-2 mb-3">
             <p className="text-base text-surface/75 dark:text-neutral-300 text-left md:text-center">
               <small>
-                By ユーザ名
+                投稿者：ユーザ名
               </small>
             </p>
             <p className="text-base text-surface/75 dark:text-neutral-300 mb-3 text-right align-bottom md:text-center">
               <small>
-                Last updated {cardsDataDetail.length > 0 && cardsDataDetail[0].updated_at}
+                更新日：{cardsDataDetail.length > 0 && cardsDataDetail[0].updated_at}
               </small>
             </p>
           </div>
@@ -81,7 +81,7 @@ export const PostDetail = () => {
           </p>
           <hr />
           <div className="text-center">
-            {cardsDataDetail.length > 0 && loginUser?.id === cardsDataDetail[0].user_id ?
+            {(cardsDataDetail.length > 0 && (loginUser?.id == cardsDataDetail[0].user_id)) ?
               <>
                 <button
                   type="button"
